@@ -1,6 +1,6 @@
 FROM python:3.9
 
-RUN pip install fastapi uvicorn motor
+RUN pip install fastapi uvicorn motor python-dotenv
 
 EXPOSE 8000
 
