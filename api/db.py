@@ -10,7 +10,7 @@ stac_collection = database.get_collection("stac_collection")
 
 async def add_collection(new_collection: dict):
     collection = await stac_collection.insert_one(new_collection)
-    return collection
+    # return new_collection
 
 async def get_collections():
     collections = []
