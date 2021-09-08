@@ -5,8 +5,8 @@ services:
     build: ./
     volumes:
       - ./:/usr/api/
-    env_file:
-      - .env
+    environment: 
+      MONGO_CONN_STRING: "mongodb://dev:stac@mongo:27017"
     ports:
       - 8002:8000
 
