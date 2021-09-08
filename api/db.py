@@ -1,8 +1,13 @@
 import motor.motor_asyncio
+from dotenv import load_dotenv
+import os
 
-MONGO_DETAILS = "mongodb://dev:stac@mongo:27017"
+load_dotenv()
 
-client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_DETAILS)
+MONGO_CONN_STRING = os.environ.get("MONGO_CONN_STRING")
+# MONGO_CONN_STRING="mongodb://dev:stac@mongo:27017"
+
+client = motor.motor_asyncio.AsyncIOMotorClient(MONGO_CONN_STRING)
 
 database = client.stac
 

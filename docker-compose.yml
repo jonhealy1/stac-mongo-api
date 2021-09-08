@@ -5,6 +5,8 @@ services:
     build: ./
     volumes:
       - ./:/usr/api/
+    env_file:
+      - .env
     ports:
       - 8002:8000
 
@@ -15,6 +17,6 @@ services:
       MONGO_INITDB_ROOT_USERNAME: "dev"
       MONGO_INITDB_ROOT_PASSWORD: "stac"
     volumes:
-        - ./mongo_data:/data/db
+      - ./mongo_data:/data/db
     ports:
       - "27018:27017"

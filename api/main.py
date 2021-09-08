@@ -3,20 +3,20 @@ from dotenv import load_dotenv
 import os
 from .routers import stac_router
 from motor.motor_asyncio import AsyncIOMotorClient
-# from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 
 load_dotenv()
 app = FastAPI()
 
 app.include_router(stac_router.router)
 
-# app.add_middleware(
-#     CORSMiddleware,
-#     allow_origins=["*"],
-#     allow_credentials=True,
-#     allow_methods=["*"],
-#     allow_headers=["*"],      
-# )
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],      
+)
 
 # @app.on_event("startup")
 # async def startup_db_client():
