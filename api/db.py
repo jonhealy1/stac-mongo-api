@@ -20,7 +20,8 @@ async def add_collection(new_collection: dict):
 async def get_collections():
     collections = []
     async for collection in stac_collection.find():
-        collections.append(collection)
+        if "content" in collection:
+            collections.append(collection["content"])
     return collections
 
 async def get_one_collection(id: str):
