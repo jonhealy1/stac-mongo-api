@@ -4,9 +4,11 @@ from fastapi.encoders import jsonable_encoder
 router = APIRouter()
 
 from api.db import (
-    get_collections,
     add_collection,
-    get_one_collection
+    add_item,
+    get_collections,
+    get_one_collection,
+    get_item_collection
 )
 
 @router.get("/")
@@ -22,14 +24,25 @@ async def get_all_collections():
 
 @router.post("/collections/")
 async def post_collection(content: dict):
-    collection = {"_id": content["id"], "collection": content}
+    collection = {"_id": content["id"], "content": content}
     collection = jsonable_encoder(collection)
     stac_collection = await add_collection(collection)
-    created_student = await get_collections()
-    return created_student
+
+@router.post("/collections/{collection_id}")
+async def post_item(content: dict):
+    item = {"_id": content["id"], "content": content}
+    item = jsonable_encoder(item)
+    stac_item = await add_item(item)   
 
 @router.get("/collections/{collection_id}")
 async def get_collection(collection_id: str):
     collection_id = jsonable_encoder(collection_id)
     collection = await get_one_collection(collection_id)
     return collection
+
+@router.get("/collections/{collection_id}/items")
+async def get_items(collection_id: str):
+    items = await get_item_collection(collection_id)
+    if items:
+        return items
+    return {"error": "No items"}
