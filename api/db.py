@@ -1,4 +1,5 @@
 import motor.motor_asyncio
+from bson.objectid import ObjectId
 
 MONGO_DETAILS = "mongodb://dev:stac@mongo:27017"
 
@@ -17,3 +18,9 @@ async def get_collections():
     async for collection in stac_collection.find():
         collections.append(collection)
     return collections
+
+async def get_collection(id: str):
+    if (collection := await stac_collection.find_one({"_id": ObjectId(id)})) is not None:
+        return collection
+    else:
+        return {id: "Not found"}

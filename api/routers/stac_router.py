@@ -1,12 +1,12 @@
-from fastapi import APIRouter, status
+from fastapi import APIRouter
 from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
 
 router = APIRouter()
 
 from api.db import (
     get_collections,
-    add_collection
+    add_collection,
+    get_collection
 )
 
 @router.get("/")
@@ -21,13 +21,17 @@ async def get_all_collections():
     return {"error": "No collections"}
 
 @router.post("/collections/")
-async def post_collection(id):
-    collection = {"_id": id, "hello":"world"}
+async def post_collection(content: dict):
+    collection = {"_id": content["id"], "collection": content}
     collection = jsonable_encoder(collection)
     stac_collection = await add_collection(collection)
     created_student = await get_collections()
-    return JSONResponse(status_code=status.HTTP_201_CREATED, content=created_student)
+    return created_student
 
 @router.get("/collections/{collection_id}")
-async def get_collection(collection_id):
-    return {"collection_id": collection_id}
+async def get_collection(collection_id: str):
+    collection_id = jsonable_encoder(collection_id)
+    collections = await get_collections()
+    for collection in collections:
+        if(collection["_id"] == collection_id):
+            return collection
