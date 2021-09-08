@@ -6,7 +6,7 @@ router = APIRouter()
 from api.db import (
     get_collections,
     add_collection,
-    get_collection
+    get_one_collection
 )
 
 @router.get("/")
@@ -31,7 +31,5 @@ async def post_collection(content: dict):
 @router.get("/collections/{collection_id}")
 async def get_collection(collection_id: str):
     collection_id = jsonable_encoder(collection_id)
-    collections = await get_collections()
-    for collection in collections:
-        if(collection["_id"] == collection_id):
-            return collection
+    collection = await get_one_collection(collection_id)
+    return collection
