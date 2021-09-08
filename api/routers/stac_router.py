@@ -30,7 +30,7 @@ async def post_collection(content: dict):
 
 @router.post("/collections/{collection_id}")
 async def post_item(content: dict):
-    item = {"_id": content["id"], "content": content}
+    item = {"_id": content["id"], "collection": content["collection"], "content": content}
     item = jsonable_encoder(item)
     stac_item = await add_item(item)   
 
@@ -45,4 +45,3 @@ async def get_items(collection_id: str):
     items = await get_item_collection(collection_id)
     if items:
         return items
-    return {"error": "No items"}

@@ -14,7 +14,7 @@ async def add_collection(new_collection: dict):
     collection = await stac_collection.insert_one(new_collection)
 
 async def add_item(new_item: dict):
-    item = await stac_collection.insert_one(new_item)
+    item = await stac_item.insert_one(new_item)
 
 async def get_collections():
     collections = []
@@ -31,7 +31,7 @@ async def get_one_collection(id: str):
 
 async def get_item_collection(id: str):
     items = []
-    async for item in stac_item.find({"_id": id}):
-        if "content" in item:
-            items.append(item["content"])
+    async for item in stac_item.find({"collection": id}):
+        #if "content" in item:
+        items.append(item["content"])
     return items
